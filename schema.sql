@@ -18,21 +18,22 @@ CREATE INDEX ix_user_nick ON user (nick);
 
 -- Table of payments
 CREATE TABLE payment (
-	user_id INTEGER NOT NULL,
-	date TEXT NOT NULL,
+	user_id INTEGER NOT NULL REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	date DATE NOT NULL,
 	amount NUMERIC NOT NULL,
-	msg TEXT,
-	FOREIGN KEY (user_id) REFERENCES user(id)
-)
+	msg TEXT
+);
+
+CREATE INDEX ix_payment_user_date ON payment (user_id, date);
+CREATE INDEX ix_payment_date ON payment (date);
 
 -- Table for auxiliary user data such as secondary emails, key credentials or so.
 CREATE TABLE user_data (
- 	user_id INTEGER NOT NULL,
+ 	user_id INTEGER NOT NULL REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE,
  	k TEXT NOT NULL,
 	v TEXT
-	FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE INDEX ix_user_data_id ON user_datacredential (user_id);
+CREATE INDEX ix_user_data_id ON user_data (user_id);
 
 END;
