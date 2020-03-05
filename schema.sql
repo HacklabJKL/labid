@@ -4,12 +4,17 @@ BEGIN;
 -- Table of users with basic user information
 CREATE TABLE user (
 	id INTEGER PRIMARY KEY,
-	email TEXT UNIQUE NOT NULL,
-	joined DATE,
-	member_type TEXT NOT NULL,
-	discount_end DATE,
+	full_name TEXT NOT NULL,
 	nick TEXT,
-	ref TEXT UNIQUE
+	email TEXT UNIQUE NOT NULL,
+	tel TEXT,                   -- E.164
+	municipality TEXT,
+	birthyear TEXT,             -- YYYY format
+	lang TEXT,                  -- ISO 639‑1
+	member_type TEXT NOT NULL,  -- 'basic' or 'key'
+	discount_end DATE,          -- ISO 8601. Affects the membership fee when in future.
+	joined DATE,                -- ISO 8601
+	creditor_ref TEXT UNIQUE    -- ISO 11649
 );
 
 CREATE INDEX ix_user_joined ON user (joined);
